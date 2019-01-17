@@ -1,0 +1,18 @@
+[user]
+	name = Albert Salim
+[rebase]
+	autostash = true
+	stat = true
+[core]
+	excludesfile = /Users/albert/.gitignore_global
+	autocrlf = input
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/albert/.stCommitMsg
+[init]
+	templatedir = ~/.git_template
