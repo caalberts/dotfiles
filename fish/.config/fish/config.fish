@@ -7,8 +7,10 @@ set -g -x PATH $GOPATH/bin $PATH
 
 set -g -x GO111MODULE on
 
-bass source ~/.profile
-bass source ~/.bash_profile
+if functions -q bass
+  bass source ~/.profile
+  bass source ~/.bash_profile
+end
 
 alias v "vim"
 
