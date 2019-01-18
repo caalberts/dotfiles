@@ -7,8 +7,6 @@ set -g -x PATH $GOPATH/bin $PATH
 
 set -g -x GO111MODULE on
 
-set -g -x ASDF_DIR (brew --prefix asdf)
-
 if functions -q bass
   bass source ~/.profile
   bass source ~/.bash_profile
@@ -23,4 +21,4 @@ end
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/albert/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/albert/google-cloud-sdk/path.fish.inc'; else; . '/Users/albert/google-cloud-sdk/path.fish.inc'; end; end
 
-# source ~/.asdf/asdf.fish
+source ~/.asdf/asdf.fish
