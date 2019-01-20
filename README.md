@@ -9,4 +9,7 @@ dev-machine-as-code
   - CLI tools - sync via dotfiles repository + stow
   - GUI mac apps - sync via mackup
 - install dependencies in Brewfile 
-  
+
+## Usage
+
+`./up`
