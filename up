@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+function getLatestBrew {
+	echo "Installing latest homebrew"
+	which brew || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+	brew update
+	brew tap 'homebrew/bundle'
+}
+
+function brewInstall {
+	echo "Installing brews"
+	(cd brew && (brew bundle check || brew bundle install))
+}
+
+function stowDotfiles {
+	stow brew
+	stow bash
+	stow fish
+	stow git
+	stow vim
+	stow mackup
+	stow asdf
+	stow profile
+}
+
+getLatestBrew
+brewInstall
+stowDotfiles
