@@ -21,6 +21,16 @@ function stowDotfiles {
 	done
 }
 
+function mackupRestore {
+	echo "Restoring mackup - ensure mackup storage exists"
+	MACKUP_DIR=$HOME/Dropbox/Mackup
+	if [ ! -d $MACKUP_DIR ]; then
+		echo "Mackup storage doesn't exists. exiting." && exit 1	
+	fi
+	mackup restore
+}
+
 getLatestBrew
 brewInstall
 stowDotfiles
+mackupRestore
