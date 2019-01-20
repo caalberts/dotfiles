@@ -15,10 +15,7 @@ function brewInstall {
 
 function stowDotfiles {
 	echo "Stowing dotfiles"
-	for dir in $(ls -d */ | sed 's/\///')
-	do
-		echo $dir && stow $dir
-	done
+	ls -d */ | sed 's/\///' | awk {'system("echo " $0); system("stow " $0)'}
 }
 
 function mackupRestore {
@@ -30,7 +27,14 @@ function mackupRestore {
 	mackup restore
 }
 
+function initAsdf {
+	echo "Installing asdf plugins"
+	(cd asdf && (cat ~/.tool-versions | awk '{system ("asdf plugin-add " $1); system("asdf install " $0)}'))
+}
+
+
 getLatestBrew
 brewInstall
 stowDotfiles
 mackupRestore
+initAsdf
