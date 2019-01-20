@@ -19,11 +19,17 @@ Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-textobj-user'
 
 " Ruby plugins
+Plug 'nelstrom/vim-textobj-rubyblock'
+Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-rake'
 Plug 'tpope/vim-rails'
-Plug 'nelstrom/vim-textobj-rubyblock'
-Plug 'vim-ruby/vim-ruby'
+
+" Go plugins
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+" JS plugins
+Plug 'moll/vim-node'
 
 call plug#end()
 
