@@ -27,6 +27,10 @@ function mackupRestore {
 	mackup restore
 }
 
+function installAsdf {
+	git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.6.3
+}
+
 function initAsdf {
 	echo "Installing asdf plugins"
 	(cd asdf && (cat .tool-versions | awk '{system ("asdf plugin-add " $1); system("asdf install " $0)}'))
@@ -46,5 +50,6 @@ getLatestBrew
 brewInstall
 stowDotfiles
 mackupRestore
+installAsdf
 initAsdf
 asdfInstallNode
