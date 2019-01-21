@@ -6,6 +6,11 @@ nmap <leader>so :source $MYVIMRC<cr>
 
 set nocompatible
 set number
+set autochdir
+set noswapfile
+set autowrite
+set expandtab
+set shiftwidth=2
 
 runtime! macros/matchit.vim
 
