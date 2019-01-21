@@ -1,4 +1,4 @@
-set -x -U GOPATH $HOME/Dev/go
+set -x -U GOPATH $HOME/Dev
 set -x -U GOBIN $GOPATH/bin
 
 set -g -x PATH /usr/local/bin $PATH

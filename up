@@ -45,6 +45,10 @@ function asdfInstallNode {
 	(cd asdf && (cat .tool-versions | grep nodejs | xargs asdf install))
 }
 
+function makeDirs {
+	mkdir -p ~/Dev/src
+}
+
 
 getLatestBrew
 brewInstall
@@ -53,3 +57,4 @@ mackupRestore
 installAsdf
 initAsdf
 asdfInstallNode
+makeDirs
