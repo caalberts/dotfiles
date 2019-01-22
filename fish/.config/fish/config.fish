@@ -22,3 +22,5 @@ end
 if [ -f '/Users/albert/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/albert/google-cloud-sdk/path.fish.inc'; else; . '/Users/albert/google-cloud-sdk/path.fish.inc'; end; end
 
 source ~/.asdf/asdf.fish
+
+fish_vi_key_bindings
