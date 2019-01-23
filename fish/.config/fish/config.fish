@@ -13,6 +13,10 @@ if functions -q bass
 end
 
 alias v "vim"
+alias gf "git fetch"
+alias gfr "git fetch; and git rebase"
+alias gp "git pull"
+alias gpr "git pull -r"
 
 function ll
     ls -al $argv
