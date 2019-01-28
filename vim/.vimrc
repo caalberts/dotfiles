@@ -11,6 +11,8 @@ set noswapfile
 set autowrite
 set expandtab
 set shiftwidth=2
+set splitbelow
+set splitright
 
 runtime! macros/matchit.vim
 
@@ -22,6 +24,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 Plug 'kana/vim-textobj-user'
+Plug 'christoomey/vim-tmux-navigator'
 
 " Ruby plugins
 Plug 'nelstrom/vim-textobj-rubyblock'
@@ -40,3 +43,8 @@ call plug#end()
 
 nnoremap <silent> <leader><C-t> :FZF<cr>
 
+" remap pane navigation
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
