@@ -7,12 +7,13 @@ nmap <leader>so :source $MYVIMRC<cr>
 set nocompatible
 set number
 set autochdir
-set noswapfile
-set autowrite
 set expandtab
 set shiftwidth=2
 set splitbelow
 set splitright
+
+set noswapfile
+set autowrite
 
 runtime! macros/matchit.vim
 
@@ -48,3 +49,7 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
+
+autocmd VimResized * :wincmd =
+nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
+nnoremap <leader>= :wincmd =<cr>>
