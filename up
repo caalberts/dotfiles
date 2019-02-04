@@ -27,6 +27,9 @@ function mackupRestore {
 	mackup restore
 }
 
+function initFish {
+        fisher
+}
 function installAsdf {
 	git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.6.3
 }
@@ -54,6 +57,7 @@ getLatestBrew
 brewInstall
 stowDotfiles
 mackupRestore
+initFish
 installAsdf
 initAsdf
 asdfInstallNode
