@@ -28,3 +28,15 @@ if [ -f '/Users/albert/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/
 source ~/.asdf/asdf.fish
 
 fish_vi_key_bindings
+
+function __not_inside_tmux
+  [ -z "$TMUX" ]
+end
+
+function ensure_tmux_is_running
+  if __not_inside_tmux
+    taf
+  end
+end
+
+ensure_tmux_is_running
