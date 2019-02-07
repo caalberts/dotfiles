@@ -9,6 +9,7 @@ set number
 set autochdir
 set expandtab
 set shiftwidth=2
+set tabstop=2
 set splitbelow
 set splitright
 
@@ -26,6 +27,7 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'kana/vim-textobj-user'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'jgdavey/tslime.vim'
 
 " Ruby plugins
 Plug 'nelstrom/vim-textobj-rubyblock'
@@ -53,3 +55,7 @@ nnoremap <C-l> <C-w>l
 autocmd VimResized * :wincmd =
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
 nnoremap <leader>= :wincmd =<cr>>
+
+let g:tslime_always_current_session = 1
+let g:tslime_always_current_window = 1
+
