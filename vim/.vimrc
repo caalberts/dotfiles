@@ -28,6 +28,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'jgdavey/tslime.vim'
+Plug 'janko/vim-test'
 
 " Ruby plugins
 Plug 'nelstrom/vim-textobj-rubyblock'
@@ -59,3 +60,9 @@ nnoremap <leader>= :wincmd =<cr>>
 let g:tslime_always_current_session = 1
 let g:tslime_always_current_window = 1
 
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-r> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
+let test#strategy = 'tslime'
