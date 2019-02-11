@@ -1,0 +1,4 @@
+vim/*/plugged
+fish/*/*/fish_variables
+fish/*/*/functions
+fish/*/*/conf.d
