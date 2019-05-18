@@ -5,7 +5,7 @@ nmap <leader>vr :sp $MYVIMRC<cr>
 nmap <leader>so :source $MYVIMRC<cr>
 
 set nocompatible
-set number
+set number relativenumber 
 set autochdir
 set expandtab
 set shiftwidth=2
@@ -15,6 +15,12 @@ set splitright
 
 set noswapfile
 set autowrite
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
 
 runtime! macros/matchit.vim
 
