@@ -54,6 +54,10 @@ function makeDirs {
 	mkdir -p ~/Dev/src
 }
 
+function installTmuxPluginManager {
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+}
+
 
 getLatestBrew
 brewInstall
@@ -64,3 +68,4 @@ installAsdf
 initAsdf
 asdfInstallNode
 makeDirs
+installTmuxPluginManager
