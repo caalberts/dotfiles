@@ -7,6 +7,8 @@ set -g -x PATH $GOPATH/bin $PATH
 
 set -g -x GO111MODULE on
 
+set -g -x LC_ALL en_US.UTF-8
+
 if functions -q bass
   bass source ~/.profile
   bass source ~/.bash_profile
