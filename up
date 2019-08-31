@@ -58,6 +58,46 @@ function installTmuxPluginManager {
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 }
 
+function setMacPreferences {
+  echo "Setting Mac preferences"
+
+  # Auto hide dock
+  defaults write com.apple.dock autohide -bool true
+  defaults write com.apple.dock autohide-time-modifier -float 0.5
+  defaults write com.apple.dock autohide-delay -float 0
+
+  # Faster key repeat
+  defaults write NSGlobalDomain KeyRepeat -int 2
+  defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+  # Trackpad
+  defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool false
+  defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+  
+  # Use Fn as function keys
+  defaults write -g com.apple.keyboard.fnState -bool true
+
+  # Full keyboard access
+  defaults write -g AppleKeyboardUIMode -int 2
+  
+  # Show all extensions
+  defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+  defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+  defaults write com.apple.finder FXEnableRemoveFromICloudDriveWarning -bool false
+
+  # Prefer list view in Finder
+  defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+  # Show path bar in Finder
+  defaults write com.apple.finder ShowPathbar -bool true
+
+  # Disable dashboard
+  defaults write com.apple.dashboard mcx-disabled -bool true
+
+  for app in "Dock" "Finder"; do
+    killall "${app}" > /dev/null 2>&1
+  done
+}
+
 
 getLatestBrew
 brewInstall
@@ -69,3 +109,5 @@ initAsdf
 asdfInstallNode
 makeDirs
 installTmuxPluginManager
+setMacPreferences
+
