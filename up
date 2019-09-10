@@ -32,22 +32,14 @@ function initFish {
         source
         fisher
 }
-function installAsdf {
-	git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.6.3
-}
 
 function initAsdf {
 	echo "Installing asdf plugins"
-	(cd asdf && (cat .tool-versions | awk '{system ("asdf plugin-add " $1); system("asdf install " $0)}'))
-}
-
-function asdfInstallNode {
-	echo "Installing node via asdf"
-	brew install coreutils
-	brew install gpg
 	export GNUPGHOME="${ASDF_DIR:-$HOME/.asdf}/keyrings/nodejs" && mkdir -p "$GNUPGHOME" && chmod 0700 "$GNUPGHOME"
+	brew install coreutils
+	(cd asdf && (cat .tool-versions | awk '{system ("asdf plugin-add " $1)}'))
 	bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
-	(cd asdf && (cat .tool-versions | grep nodejs | xargs asdf install))
+	(cd asdf && (cat .tool-versions | awk '{system("asdf install " $0)}'))
 }
 
 function makeDirs {
@@ -107,9 +99,7 @@ brewInstall
 stowDotfiles
 mackupRestore
 initFish
-installAsdf
 initAsdf
-asdfInstallNode
 makeDirs
 installTmuxPluginManager
 setMacPreferences
