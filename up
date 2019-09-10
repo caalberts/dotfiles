@@ -74,6 +74,9 @@ function setMacPreferences {
   defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool false
   defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
   
+  # Mouse
+  defaults write -g com.apple.mouse.scaling -float 1.5
+
   # Use Fn as function keys
   defaults write -g com.apple.keyboard.fnState -bool true
 
