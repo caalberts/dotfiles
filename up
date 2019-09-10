@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+function acceptXcodeLicense {
+  echo "Xcode License"
+  sudo xcodebuild -license
+}
+
 function getLatestBrew {
 	echo "Installing latest homebrew"
 	which brew || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -94,6 +99,7 @@ function setMacPreferences {
 }
 
 
+acceptXcodeLicense
 getLatestBrew
 brewInstall
 stowDotfiles
