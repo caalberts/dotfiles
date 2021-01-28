@@ -1,5 +1,4 @@
 bundler
 pry
-gem-ctags
 ruby-debug-ide
 debase
