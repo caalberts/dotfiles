@@ -1,6 +1,12 @@
 set -x -U GOPATH $HOME/Dev
 set -x -U GOBIN $GOPATH/bin
 
+set -x -U FISH_CONF $HOME/.config/fish/config.fish
+
+set -x -U GDK $HOME/Dev/gdk
+
+set -x -U EDITOR vim
+
 set -g -x PATH /usr/local/bin $PATH
 set -g -x PATH /usr/local/sbin $PATH
 set -g -x PATH $GOPATH/bin $PATH
@@ -22,9 +28,15 @@ alias gp "git pull"
 alias gpr "git pull -r"
 alias gpf "git push --force"
 alias glo "git log --oneline"
+alias gg "git grep"
+alias grdb "git restore db/structure.sql db/schema.rb"
+
+function git_branch_delete_merged
+  git branch --merged | grep -v master | xargs git branch -d
+end
 
 function ll
-    ls -al $argv
+  ls -al $argv
 end
 
 # The next line updates PATH for the Google Cloud SDK.
@@ -44,3 +56,5 @@ end
 
 # ensure_tmux_is_running
 
+
+[ -s "/Users/albert/.jabba/jabba.fish" ]; and source "/Users/albert/.jabba/jabba.fish"
