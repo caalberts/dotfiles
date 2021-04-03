@@ -56,5 +56,8 @@ end
 
 # ensure_tmux_is_running
 
+if [ -n "$TMUX" ]
+  set -e GEM_HOME
+end
 
 [ -s "/Users/albert/.jabba/jabba.fish" ]; and source "/Users/albert/.jabba/jabba.fish"
