@@ -35,6 +35,10 @@ function git_branch_delete_merged
   git branch --merged | grep -v master | xargs git branch -d
 end
 
+function delete_screenshots
+  find ~/Desktop/ -name "Screenshot*" -exec rm {} \+
+end
+
 function ll
   ls -al $argv
 end
