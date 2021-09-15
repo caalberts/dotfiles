@@ -2,7 +2,6 @@ edc/bass
 oh-my-fish/theme-default
 fisherman/git_util
 jethrokuan/fzf
-laughedelic/pisces
 jethrokuan/z
 caalberts/taf
 caalberts/tdf
@@ -10,3 +9,4 @@ evanlucas/fish-kubectl-completions
 fizzy-fish/fizzy-git
 fizzy-fish/fizzy-tmux
 fizzy-fish/fizzy-kubectl
+dracula/fish

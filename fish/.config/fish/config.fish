@@ -65,3 +65,4 @@ if [ -n "$TMUX" ]
 end
 
 [ -s "/Users/albert/.jabba/jabba.fish" ]; and source "/Users/albert/.jabba/jabba.fish"
+set -g fish_user_paths "/usr/local/opt/sqlite/bin" $fish_user_paths
