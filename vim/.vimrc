@@ -26,10 +26,13 @@ runtime! macros/matchit.vim
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'dracula/vim', { 'as': 'dracula' }
+
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdtree'
 
 Plug 'kana/vim-textobj-user'
 Plug 'christoomey/vim-tmux-navigator'
@@ -50,6 +53,8 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'moll/vim-node'
 
 call plug#end()
+
+colorscheme dracula
 
 nnoremap <silent> <leader><C-t> :FZF<cr>
 
@@ -72,3 +77,11 @@ nmap <silent> t<C-s> :TestSuite<CR>
 nmap <silent> t<C-r> :TestLast<CR>
 nmap <silent> t<C-g> :TestVisit<CR>
 let test#strategy = 'tslime'
+
+" NERDTree
+" Open NERDTree on directory
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+map <leader>e :NERDTreeToggle<CR>
+
+set tags^=./.git/tags
