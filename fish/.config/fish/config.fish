@@ -15,6 +15,10 @@ set -g -x GO111MODULE on
 
 set -g -x LC_ALL en_US.UTF-8
 
+
+# Set hydro theme colours
+set --universal hydro_color_pwd $fish_color_quote
+
 if functions -q bass
   bass source ~/.profile
   bass source ~/.bash_profile
@@ -66,3 +70,4 @@ end
 
 [ -s "/Users/albert/.jabba/jabba.fish" ]; and source "/Users/albert/.jabba/jabba.fish"
 set -g fish_user_paths "/usr/local/opt/sqlite/bin" $fish_user_paths
+
