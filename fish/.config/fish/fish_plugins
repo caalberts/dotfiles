@@ -1,6 +1,5 @@
+jorgebucaran/fisher
 edc/bass
-oh-my-fish/theme-default
-fisherman/git_util
 jethrokuan/fzf
 jethrokuan/z
 caalberts/taf
@@ -10,3 +9,4 @@ fizzy-fish/fizzy-git
 fizzy-fish/fizzy-tmux
 fizzy-fish/fizzy-kubectl
 dracula/fish
+jorgebucaran/hydro
