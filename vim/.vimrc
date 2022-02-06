@@ -39,6 +39,9 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'jgdavey/tslime.vim'
 Plug 'janko/vim-test'
 
+" CodeCompletion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " Ruby plugins
 Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'vim-ruby/vim-ruby'
@@ -83,5 +86,20 @@ let test#strategy = 'tslime'
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 map <leader>e :NERDTreeToggle<CR>
+
+" FZF
+nnoremap <silent> <C-t> :Files<CR>
+
+" CodeCompletion
+" Use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<Tab>" :
+        \ coc#refresh()
 
 set tags^=./.git/tags
