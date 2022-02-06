@@ -71,3 +71,9 @@ end
 [ -s "/Users/albert/.jabba/jabba.fish" ]; and source "/Users/albert/.jabba/jabba.fish"
 set -g fish_user_paths "/usr/local/opt/sqlite/bin" $fish_user_paths
 
+direnv hook fish | source
+
+set -g direnv_fish_mode disable_arrow
+
+alias tmux='direnv exec / tmux'
+
