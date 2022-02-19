@@ -57,7 +57,10 @@ Plug 'moll/vim-node'
 
 call plug#end()
 
+" ColorSchema
+let g:dracula_italic = 0
 colorscheme dracula
+highlight Normal ctermbg=None
 
 nnoremap <silent> <leader><C-t> :FZF<cr>
 

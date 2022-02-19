@@ -15,6 +15,7 @@ set -g -x GO111MODULE on
 
 set -g -x LC_ALL en_US.UTF-8
 
+set -g -x TERM screen-256color
 
 # Set hydro theme colours
 set --universal hydro_color_pwd $fish_color_quote
