@@ -51,7 +51,7 @@ end
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/albert/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/albert/google-cloud-sdk/path.fish.inc'; else; . '/Users/albert/google-cloud-sdk/path.fish.inc'; end; end
 
-source /usr/local/opt/asdf/asdf.fish
+source /opt/homebrew/opt/asdf/libexec/asdf.fish
 
 function __not_inside_tmux
   [ -z "$TMUX" ]
