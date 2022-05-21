@@ -36,6 +36,7 @@ Plug 'scrooloose/nerdtree'
 
 Plug 'kana/vim-textobj-user'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'knubie/vim-kitty-navigator'
 Plug 'jgdavey/tslime.vim'
 Plug 'janko/vim-test'
 
