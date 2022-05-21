@@ -16,3 +16,5 @@
 	template = /Users/albert/.stCommitMsg
 [init]
 	templatedir = ~/.git_template
+[include]
+	path = /Users/albert/.gitcontext/contexts
