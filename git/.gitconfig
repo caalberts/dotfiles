@@ -1,5 +1,6 @@
 [user]
 	name = Albert Salim
+#	email = asalim@gitlab.com
 [rebase]
 	autostash = true
 	stat = true
@@ -8,11 +9,20 @@
 	autocrlf = input
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [init]
 	templatedir = ~/.git_template
+[grep]
+  lineNUmber = true
+
+[alias]
+  mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
+  jump = !git stash && git checkout $1 && shift && git stash pop
+  
+[includeIf "gitdir:~/Dev/src/github.com/caalberts/"]
+  path = ~/.gitcontext/users/albert-personal
+
 [include]
 	path = /Users/albert/.gitcontext/contexts

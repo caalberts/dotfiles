@@ -44,6 +44,14 @@ function delete_screenshots
   find ~/Desktop/ -name "Screenshot*" -exec rm {} \+
 end
 
+function download_test_mapping
+  RETRIEVE_TESTS_METADATA_FROM_PAGES=true RSPEC_PACKED_TESTS_MAPPING_PATH=crystalball/packed-mapping.json RSPEC_TESTS_MAPPING_PATH=crystalball/mapping.json bass "source scripts/rspec_helpers.sh && retrieve_tests_mapping"
+end
+
+function impact_rspec
+  git diff HEAD..master --name-only | xargs bundle exec tff -f tests.yml | xargs  bundle exec rspec
+end
+
 function ll
   ls -al $argv
 end
@@ -51,7 +59,7 @@ end
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/albert/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/albert/google-cloud-sdk/path.fish.inc'; else; . '/Users/albert/google-cloud-sdk/path.fish.inc'; end; end
 
-source /opt/homebrew/opt/asdf/libexec/asdf.fish
+source /usr/local/opt/asdf/libexec/asdf.fish
 
 function __not_inside_tmux
   [ -z "$TMUX" ]
