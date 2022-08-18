@@ -3,8 +3,6 @@ set -x -U GOBIN $GOPATH/bin
 
 set -x -U FISH_CONF $HOME/.config/fish/config.fish
 
-set -x -U GDK $HOME/Dev/gdk
-
 set -x -U EDITOR vim
 
 set -g -x PATH /usr/local/bin $PATH
@@ -15,10 +13,9 @@ set -g -x GO111MODULE on
 
 set -g -x LC_ALL en_US.UTF-8
 
-set -g -x TERM screen-256color
-
 # Set hydro theme colours
-set --universal hydro_color_pwd $fish_color_quote
+set --global $hydro_color_pwd $fish_color_quote
+set --global $hydro_color_git $fish_color_normal
 
 if functions -q bass
   bass source ~/.profile
@@ -59,24 +56,6 @@ end
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/albert/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/albert/google-cloud-sdk/path.fish.inc'; else; . '/Users/albert/google-cloud-sdk/path.fish.inc'; end; end
 
-source /usr/local/opt/asdf/libexec/asdf.fish
-
-function __not_inside_tmux
-  [ -z "$TMUX" ]
-end
-
-function ensure_tmux_is_running
-  if __not_inside_tmux
-    taf
-  end
-end
-
-# ensure_tmux_is_running
-
-if [ -n "$TMUX" ]
-  set -e GEM_HOME
-end
-
 [ -s "/Users/albert/.jabba/jabba.fish" ]; and source "/Users/albert/.jabba/jabba.fish"
 set -g fish_user_paths "/usr/local/opt/sqlite/bin" $fish_user_paths
 
@@ -84,5 +63,7 @@ direnv hook fish | source
 
 set -g direnv_fish_mode disable_arrow
 
-alias tmux='direnv exec / tmux'
+source (brew --prefix asdf)/libexec/asdf.fish
+source ~/.config/fish/conf.d/gitlab.fish
+
 
