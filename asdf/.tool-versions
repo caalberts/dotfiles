@@ -1,7 +1,7 @@
 elixir 1.6.0
 ruby 3.1.2
 nodejs 16.9.1
-golang 1.14
+golang 1.18
 clojure 1.10.0
 helm 3.5.4
 java adopt-openjdk-11.0.6+10_openj9-0.18.1

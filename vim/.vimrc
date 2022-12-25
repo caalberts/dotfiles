@@ -56,6 +56,9 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " JS plugins
 Plug 'moll/vim-node'
 
+" Solidity plugins
+" Plug 'TovarishFin/vim-solidity'
+
 call plug#end()
 
 " ColorSchema
@@ -107,3 +110,6 @@ inoremap <silent><expr> <Tab>
         \ coc#refresh()
 
 set tags^=./.git/tags
+
+let g:coc_global_extensions = ['coc-solargraph']
+
