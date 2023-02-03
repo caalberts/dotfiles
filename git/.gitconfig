@@ -1,6 +1,5 @@
 [user]
 	name = Albert Salim
-#	email = asalim@gitlab.com
 [rebase]
 	autostash = true
 	stat = true
