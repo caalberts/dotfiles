@@ -37,7 +37,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'kana/vim-textobj-user'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'knubie/vim-kitty-navigator'
-Plug 'jgdavey/tslime.vim'
+Plug 'jgdavey/tslime.vim', {'branch': 'main'}
 Plug 'janko/vim-test'
 
 " CodeCompletion
@@ -52,6 +52,9 @@ Plug 'tpope/vim-rails'
 
 " Go plugins
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+" Rust plugins
+Plug 'rust-lang/rust.vim'
 
 " JS plugins
 Plug 'moll/vim-node'
