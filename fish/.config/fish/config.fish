@@ -41,14 +41,6 @@ function delete_screenshots
   find ~/Desktop/ -name "Screenshot*" -exec rm {} \+
 end
 
-function download_test_mapping
-  RETRIEVE_TESTS_METADATA_FROM_PAGES=true RSPEC_PACKED_TESTS_MAPPING_PATH=crystalball/packed-mapping.json RSPEC_TESTS_MAPPING_PATH=crystalball/mapping.json bass "source scripts/rspec_helpers.sh && retrieve_tests_mapping"
-end
-
-function impact_rspec
-  git diff HEAD..master --name-only | xargs bundle exec tff -f tests.yml | xargs  bundle exec rspec
-end
-
 function ll
   ls -al $argv
 end
