@@ -22,6 +22,8 @@ if functions -q bass
   bass source ~/.bash_profile
 end
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 alias v "vim"
 alias gcm "git checkout master"
 alias gf "git fetch"
@@ -48,15 +50,9 @@ end
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/albert/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/albert/google-cloud-sdk/path.fish.inc'; else; . '/Users/albert/google-cloud-sdk/path.fish.inc'; end; end
 
-[ -s "/Users/albert/.jabba/jabba.fish" ]; and source "/Users/albert/.jabba/jabba.fish"
-set -g fish_user_paths "/usr/local/opt/sqlite/bin" $fish_user_paths
-
 direnv hook fish | source
 
 set -g direnv_fish_mode disable_arrow
 
 source (brew --prefix asdf)/libexec/asdf.fish
 
-[ -e '~/.config/fish/conf.d/gitlab.fish' ]; and source ~/.config/fish/conf.d/gitlab.fish
-
-set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin $PATH /Users/albert/.ghcup/bin # ghcup-env
