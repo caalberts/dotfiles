@@ -14,8 +14,8 @@ set -g -x GO111MODULE on
 set -g -x LC_ALL en_US.UTF-8
 
 # Set hydro theme colours
-set --global $hydro_color_pwd $fish_color_quote
-set --global $hydro_color_git $fish_color_normal
+set --global hydro_color_pwd $fish_color_quote
+set --global hydro_color_git $fish_color_normal
 
 if functions -q bass
   bass source ~/.profile
