@@ -1,7 +1,7 @@
 elixir 1.6.0
-ruby 3.1.2
-nodejs 16.9.1
-golang 1.18
+ruby 3.3.0
+nodejs 20.12.1
+golang 1.22.2
 clojure 1.10.0
 postgres 11.7
 terraform 1.2.1
