@@ -1,9 +1,10 @@
 elixir 1.6.0
 ruby 3.3.0
 nodejs 20.12.1
-golang 1.22.2
+golang 1.23.4
 clojure 1.10.0
 postgres 11.7
 terraform 1.2.1
 direnv 2.31.0
 rust 1.67
+python 3.13.1
