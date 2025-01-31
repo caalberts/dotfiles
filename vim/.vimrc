@@ -36,7 +36,6 @@ Plug 'scrooloose/nerdtree'
 
 Plug 'kana/vim-textobj-user'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'knubie/vim-kitty-navigator'
 Plug 'jgdavey/tslime.vim', {'branch': 'main'}
 Plug 'janko/vim-test'
 
@@ -59,6 +58,9 @@ Plug 'rust-lang/rust.vim'
 " JS plugins
 Plug 'moll/vim-node'
 
+" Terraform plugins
+Plug 'hashivim/vim-terraform'
+
 " Solidity plugins
 " Plug 'TovarishFin/vim-solidity'
 
@@ -70,12 +72,6 @@ colorscheme dracula
 highlight Normal ctermbg=None
 
 nnoremap <silent> <leader><C-t> :FZF<cr>
-
-" remap pane navigation
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
 
 autocmd VimResized * :wincmd =
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
