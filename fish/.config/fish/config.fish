@@ -8,6 +8,9 @@ set -x -U EDITOR vim
 set -g -x PATH /usr/local/bin $PATH
 set -g -x PATH /usr/local/sbin $PATH
 set -g -x PATH $GOPATH/bin $PATH
+set -g -x PATH /Users/asalim/Library/Application\ Support/JetBrains/Toolbox/scripts/ $PATH
+
+set -g -x GPG_TTY $(tty)
 
 set -g -x GO111MODULE on
 
@@ -46,6 +49,7 @@ end
 function ll
   ls -al $argv
 end
+
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/albert/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/albert/google-cloud-sdk/path.fish.inc'; else; . '/Users/albert/google-cloud-sdk/path.fish.inc'; end; end

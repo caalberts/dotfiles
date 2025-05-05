@@ -107,14 +107,3 @@ function setMacPreferences {
 }
 
 
-acceptXcodeLicense
-getLatestBrew
-brewInstall
-stowDotfiles
-mackupRestore
-initFish
-initAsdf
-makeDirs
-installTmuxPluginManager
-setMacPreferences
-
