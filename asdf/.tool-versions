@@ -1,6 +1,6 @@
 elixir 1.6.0
 ruby 3.3.0
-nodejs 20.12.1
+nodejs 22.16.0
 golang 1.23.4
 clojure 1.10.0
 postgres 11.7
