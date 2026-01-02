@@ -1,4 +1,8 @@
 *~
 .DS_Store
-*/.idea/
+.idea/
+
+# direnv
 .envrc
+.direnv/
+
