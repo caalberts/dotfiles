@@ -60,6 +60,46 @@ function installTmuxPluginManager {
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 }
 
+function installNix {
+  echo "Installing Nix package manager"
+
+  if command -v nix &> /dev/null; then
+    echo "Nix is already installed"
+    nix --version
+    return 0
+  fi
+
+  echo "Downloading and installing Nix..."
+  curl -L https://nixos.org/nix/install | sh
+
+  echo "Sourcing Nix environment"
+  if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+    . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+  fi
+
+  echo "Nix installation complete"
+  nix --version
+}
+
+function installNixDirenv {
+  echo "Installing nix-direnv"
+
+  if [ ! -f "$HOME/.nix-profile/share/nix-direnv/direnvrc" ]; then
+    echo "Installing nix-direnv via Nix..."
+    nix-env -iA nixpkgs.nix-direnv
+    echo "nix-direnv installed successfully"
+  else
+    echo "nix-direnv is already installed"
+  fi
+
+  echo "Verifying nix-direnv installation..."
+  if [ -f "$HOME/.nix-profile/share/nix-direnv/direnvrc" ]; then
+    echo "✓ nix-direnv found at: $HOME/.nix-profile/share/nix-direnv/direnvrc"
+  else
+    echo "⚠️  Warning: nix-direnv not found after installation"
+  fi
+}
+
 function setMacPreferences {
   echo "Setting Mac preferences"
 
@@ -106,4 +146,27 @@ function setMacPreferences {
   done
 }
 
-
+# Bootstrap order for new machine setup:
+#
+# 1. acceptXcodeLicense       # Accept Xcode license
+# 2. getLatestBrew            # Install Homebrew
+# 3. brewInstall              # Install packages from Brewfile
+# 4. stowDotfiles             # Symlink dotfiles
+# 5. installNix               # Install Nix package manager (NEW)
+# 6. installNixDirenv         # Install nix-direnv for better caching (NEW)
+# 7. mackupRestore            # Restore app configs (requires Dropbox)
+# 8. initFish                 # Set fish as default shell
+# 9. initAsdf                 # Install asdf plugins and versions
+# 10. makeDirs                # Create ~/Dev/src directory
+# 11. installTmuxPluginManager # Install tpm
+# 12. setMacPreferences       # Apply macOS settings
+#
+# Example usage:
+#   ./up                      # No automatic execution - call functions manually
+#   acceptXcodeLicense
+#   getLatestBrew
+#   brewInstall
+#   stowDotfiles
+#   installNix
+#   installNixDirenv
+#   # ... etc
