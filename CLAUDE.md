@@ -24,6 +24,7 @@ dotfiles/
 ├── git/               # Git configuration and templates
 ├── kitty/             # Kitty terminal emulator config
 ├── mackup/            # GUI application config sync
+├── nix/               # Nix package manager configuration
 ├── profile/           # Shell profile initialization
 ├── tmux/              # TMux terminal multiplexer config
 ├── vim/               # Vim editor configuration and plugins
@@ -73,6 +74,11 @@ stow <directory-name>
 - Loads nix-direnv for Nix integration
 - `use_auto()` function: Tries Nix (flake.nix/shell.nix) first, falls back to asdf (.tool-versions)
 - Enables gradual migration from asdf to Nix on per-directory basis
+
+**Nix** (`nix/.config/nix/`):
+- `nix.conf` - Nix package manager configuration
+- Enables experimental features: `nix-command` and `flakes`
+- Required for modern Nix flake-based workflows
 
 ### Terminal Emulators
 
@@ -369,6 +375,7 @@ When working with this repository, remember:
 |----------------|--------------|---------------|
 | `fish/.config/fish/config.fish` | `~/.config/fish/config.fish` | ✓ |
 | `direnv/.config/direnv/direnvrc` | `~/.config/direnv/direnvrc` | ✓ |
+| `nix/.config/nix/nix.conf` | `~/.config/nix/nix.conf` | ✓ |
 | `git/.gitconfig` | `~/.gitconfig` | ✓ |
 | `vim/.vimrc` | `~/.vimrc` | ✓ |
 | `tmux/.tmux.conf` | `~/.tmux.conf` | ✓ |
