@@ -1,0 +1,18 @@
+# ~/.config/direnv/direnvrc
+
+# Load nix-direnv (must be first)
+if [ -f "$HOME/.nix-profile/share/nix-direnv/direnvrc" ]; then
+  source "$HOME/.nix-profile/share/nix-direnv/direnvrc"
+fi
+
+# Smart auto-detection: Nix first, fallback to asdf
+use_auto() {
+  if has nix; then
+    [ -f flake.nix ] && { use flake; return; }
+    [ -f shell.nix ] && { use nix; return; }
+  fi
+
+  [ -f .tool-versions ] && { use asdf; return; }
+
+  log_error "No environment configuration found"
+}

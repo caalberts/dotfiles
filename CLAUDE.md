@@ -18,6 +18,7 @@ dotfiles/
 ├── asdf/              # asdf version manager configuration
 ├── bash/              # Bash shell configuration
 ├── brew/              # Homebrew package definitions
+├── direnv/            # direnv environment switcher config
 ├── fish/              # Fish shell configuration and plugins
 ├── ghostty/           # Ghostty terminal emulator config
 ├── git/               # Git configuration and templates
@@ -64,6 +65,14 @@ stow <directory-name>
 | `asdf/.tool-versions` | Pinned language versions (Ruby, Node, Go, Python, Rust, Elixir, Clojure, Terraform, Postgres) |
 | `asdf/.asdfrc` | asdf configuration (legacy_version_file enabled) |
 | `asdf/.default-gems` | Auto-installed Ruby gems: bundler, pry, ruby-debug-ide |
+
+### Environment Management
+
+**direnv** (`direnv/.config/direnv/`):
+- `direnvrc` - Smart auto-detection for Nix and asdf environments
+- Loads nix-direnv for Nix integration
+- `use_auto()` function: Tries Nix (flake.nix/shell.nix) first, falls back to asdf (.tool-versions)
+- Enables gradual migration from asdf to Nix on per-directory basis
 
 ### Terminal Emulators
 
@@ -359,6 +368,7 @@ When working with this repository, remember:
 | Repository Path | Symlinked To | Active Config |
 |----------------|--------------|---------------|
 | `fish/.config/fish/config.fish` | `~/.config/fish/config.fish` | ✓ |
+| `direnv/.config/direnv/direnvrc` | `~/.config/direnv/direnvrc` | ✓ |
 | `git/.gitconfig` | `~/.gitconfig` | ✓ |
 | `vim/.vimrc` | `~/.vimrc` | ✓ |
 | `tmux/.tmux.conf` | `~/.tmux.conf` | ✓ |
