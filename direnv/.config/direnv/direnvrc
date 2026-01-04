@@ -16,3 +16,41 @@ use_auto() {
 
   log_error "No environment configuration found"
 }
+
+# Auto-attach to tmux session with project-specific configuration detection
+# Sets environment variables for Fish to pick up and exec
+layout_tmux() {
+  # Skip if already in tmux
+  if [ -n "$TMUX" ]; then
+    return
+  fi
+
+  # Use directory name as session name (sanitized)
+  local session_name=$(basename "$PWD" | tr '.' '_')
+
+  # Detect tmuxinator configuration
+  if [ -f ".tmuxinator.yml" ] && has tmuxinator; then
+    export DIRENV_TMUX_TYPE="tmuxinator"
+    export DIRENV_TMUX_SESSION="$session_name"
+    return
+  fi
+
+  # Detect project-specific tmux.conf
+  if [ -f ".tmux.conf" ]; then
+    export DIRENV_TMUX_TYPE="custom_config"
+    export DIRENV_TMUX_SESSION="$session_name"
+    export DIRENV_TMUX_CONFIG="$PWD/.tmux.conf"
+    return
+  fi
+
+  # Default: create basic tmux session
+  # (if layout_tmux was called, user wants tmux)
+  export DIRENV_TMUX_TYPE="basic"
+  export DIRENV_TMUX_SESSION="$session_name"
+}
+
+# Wrapper: Load environment (nix/asdf) then auto-attach to tmux
+use_auto_layout_tmux() {
+  use_auto
+  layout_tmux
+}

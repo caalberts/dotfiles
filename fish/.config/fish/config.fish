@@ -58,5 +58,51 @@ direnv hook fish | source
 
 set -g direnv_fish_mode disable_arrow
 
+# Auto-exec into tmux after direnv sets environment variables
+# This runs after each prompt is displayed
+function __direnv_tmux_auto --on-event fish_prompt
+  # Skip if no tmux trigger set
+  if not set -q DIRENV_TMUX_SESSION
+    return
+  end
+
+  # Skip if already in tmux (safety check)
+  if set -q TMUX
+    set -e DIRENV_TMUX_SESSION
+    set -e DIRENV_TMUX_TYPE
+    set -e DIRENV_TMUX_CONFIG
+    return
+  end
+
+  # Get session name and type
+  set -l session_name $DIRENV_TMUX_SESSION
+  set -l tmux_type $DIRENV_TMUX_TYPE
+
+  # Clear variables before exec (they'll be set again when tmux shell loads)
+  set -e DIRENV_TMUX_SESSION
+  set -e DIRENV_TMUX_TYPE
+  set -e DIRENV_TMUX_CONFIG
+
+  # Execute based on type
+  switch $tmux_type
+    case "tmuxinator"
+      exec tmuxinator start -p .tmuxinator.yml
+    case "custom_config"
+      if tmux has-session -t $session_name 2>/dev/null
+        exec tmux -f .tmux.conf attach-session -t $session_name
+      else
+        exec tmux -f .tmux.conf new-session -s $session_name
+      end
+    case "basic"
+      if tmux has-session -t $session_name 2>/dev/null
+        exec tmux attach-session -t $session_name
+      else
+        exec tmux new-session -s $session_name
+      end
+  end
+end
+
 source (brew --prefix asdf)/libexec/asdf.fish
 
+zoxide init fish | source
+fish_add_path /opt/homebrew/opt/curl/bin
