@@ -8,7 +8,8 @@ set -x -U EDITOR vim
 set -g -x PATH /usr/local/bin $PATH
 set -g -x PATH /usr/local/sbin $PATH
 set -g -x PATH $GOPATH/bin $PATH
-set -g -x PATH /Users/asalim/Library/Application\ Support/JetBrains/Toolbox/scripts/ $PATH
+set -g -x PATH $HOME/.cargo/bin $PATH
+set -g -x PATH $HOME/Library/Application\ Support/JetBrains/Toolbox/scripts/ $PATH
 
 set -g -x GPG_TTY $(tty)
 
