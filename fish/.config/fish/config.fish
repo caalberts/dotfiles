@@ -84,21 +84,21 @@ function __direnv_tmux_auto --on-event fish_prompt
   set -e DIRENV_TMUX_TYPE
   set -e DIRENV_TMUX_CONFIG
 
-  # Execute based on type
+  # Execute based on type (without exec so shell remains after tmux exits)
   switch $tmux_type
     case "tmuxinator"
-      exec tmuxinator start -p .tmuxinator.yml
+      tmuxinator start -p .tmuxinator.yml
     case "custom_config"
       if tmux has-session -t $session_name 2>/dev/null
-        exec tmux -f .tmux.conf attach-session -t $session_name
+        tmux -f .tmux.conf attach-session -t $session_name
       else
-        exec tmux -f .tmux.conf new-session -s $session_name
+        tmux -f .tmux.conf new-session -s $session_name
       end
     case "basic"
       if tmux has-session -t $session_name 2>/dev/null
-        exec tmux attach-session -t $session_name
+        tmux attach-session -t $session_name
       else
-        exec tmux new-session -s $session_name
+        tmux new-session -s $session_name
       end
   end
 end
