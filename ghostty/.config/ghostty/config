@@ -1,10 +1,3 @@
 theme = dracula
 
-# Working directory behavior
-# New tabs inherit working directory, new windows also inherit
-# Note: Ghostty doesn't support different behavior for tabs vs windows yet
-window-inherit-working-directory = true
-working-directory = home
-shell-integration = true
-
 keybind = shift+enter=text:\n
