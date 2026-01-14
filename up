@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
 
+# OS detection helper
+function isMac {
+  [[ "$OSTYPE" == "darwin"* ]]
+}
+
+function isLinux {
+  [[ "$OSTYPE" == "linux-gnu"* ]]
+}
+
 function acceptXcodeLicense {
+  if ! isMac; then
+    echo "Skipping Xcode license (macOS only)"
+    return 0
+  fi
+
   echo "Xcode License"
   sudo xcodebuild -license
 }
@@ -39,10 +53,15 @@ function stowDotfiles {
 }
 
 function mackupRestore {
+	if ! isMac; then
+		echo "Skipping mackup restore (macOS only)"
+		return 0
+	fi
+
 	echo "Restoring mackup - ensure mackup storage exists"
 	MACKUP_DIR=$HOME/Dropbox/Mackup
 	if [ ! -d $MACKUP_DIR ]; then
-		echo "Mackup storage doesn't exists. exiting." && exit 1	
+		echo "Mackup storage doesn't exists. exiting." && exit 1
 	fi
 	mackup restore
 }
@@ -114,6 +133,11 @@ function installNixDirenv {
 }
 
 function setMacPreferences {
+  if ! isMac; then
+    echo "Skipping Mac preferences (macOS only)"
+    return 0
+  fi
+
   echo "Setting Mac preferences"
 
   # Auto hide dock
@@ -161,25 +185,37 @@ function setMacPreferences {
 
 # Bootstrap order for new machine setup:
 #
-# 1. acceptXcodeLicense       # Accept Xcode license
-# 2. getLatestBrew            # Install Homebrew
-# 3. brewInstall              # Install packages from Brewfile
-# 4. stowDotfiles             # Symlink dotfiles
-# 5. installNix               # Install Nix package manager (NEW)
-# 6. installNixDirenv         # Install nix-direnv for better caching (NEW)
-# 7. mackupRestore            # Restore app configs (requires Dropbox)
-# 8. initFish                 # Set fish as default shell
-# 9. initAsdf                 # Install asdf plugins and versions
-# 10. makeDirs                # Create ~/Dev/src directory
-# 11. installTmuxPluginManager # Install tpm
-# 12. setMacPreferences       # Apply macOS settings
+# Cross-platform setup (works on macOS and Linux):
+# 1. getLatestBrew            # Install Homebrew
+# 2. brewInstall              # Install packages from Brewfile (auto-detects OS)
+# 3. stowDotfiles             # Symlink dotfiles
+# 4. installNix               # Install Nix package manager
+# 5. installNixDirenv         # Install nix-direnv for better caching
+# 6. initFish                 # Set fish as default shell
+# 7. initAsdf                 # Install asdf plugins and versions
+# 8. makeDirs                 # Create ~/Dev/src directory
+# 9. installTmuxPluginManager # Install tpm
+#
+# macOS-only setup (automatically skipped on Linux):
+# 10. acceptXcodeLicense      # Accept Xcode license (macOS only)
+# 11. mackupRestore           # Restore app configs via Dropbox (macOS only)
+# 12. setMacPreferences       # Apply macOS system settings (macOS only)
 #
 # Example usage:
 #   ./up                      # No automatic execution - call functions manually
-#   acceptXcodeLicense
+#
+#   # On both macOS and Linux:
 #   getLatestBrew
 #   brewInstall
 #   stowDotfiles
 #   installNix
 #   installNixDirenv
-#   # ... etc
+#   initFish
+#   initAsdf
+#   makeDirs
+#   installTmuxPluginManager
+#
+#   # On macOS only (safe to run on Linux, will skip automatically):
+#   acceptXcodeLicense
+#   mackupRestore
+#   setMacPreferences
