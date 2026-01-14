@@ -26,7 +26,14 @@ if functions -q bass
   bass source ~/.bash_profile
 end
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Initialize Homebrew (cross-platform: works on macOS and Linux)
+if test -x /opt/homebrew/bin/brew
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+else if test -x /usr/local/bin/brew
+  eval "$(/usr/local/bin/brew shellenv)"
+else if test -x /home/linuxbrew/.linuxbrew/bin/brew
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+end
 
 alias v "vim"
 alias gcm "git checkout master"
@@ -51,9 +58,27 @@ function ll
   ls -al $argv
 end
 
+# Cross-platform clipboard functions (Linux compatibility)
+if not command -v pbcopy > /dev/null
+  if command -v xclip > /dev/null
+    function pbcopy
+      xclip -selection clipboard
+    end
+    function pbpaste
+      xclip -selection clipboard -o
+    end
+  else if command -v xsel > /dev/null
+    function pbcopy
+      xsel --clipboard --input
+    end
+    function pbpaste
+      xsel --clipboard --output
+    end
+  end
+end
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/albert/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/albert/google-cloud-sdk/path.fish.inc'; else; . '/Users/albert/google-cloud-sdk/path.fish.inc'; end; end
+if [ -f "$HOME/google-cloud-sdk/path.fish.inc" ]; if type source > /dev/null; source "$HOME/google-cloud-sdk/path.fish.inc"; else; . "$HOME/google-cloud-sdk/path.fish.inc"; end; end
 
 direnv hook fish | source
 
@@ -106,4 +131,8 @@ end
 source (brew --prefix asdf)/libexec/asdf.fish
 
 zoxide init fish | source
-fish_add_path /opt/homebrew/opt/curl/bin
+
+# Add Homebrew curl to PATH (if it exists)
+if test -d (brew --prefix)/opt/curl/bin
+  fish_add_path (brew --prefix)/opt/curl/bin
+end
