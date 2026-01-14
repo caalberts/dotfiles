@@ -60,7 +60,7 @@ end
 
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/albert/google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/albert/google-cloud-sdk/path.fish.inc'; else; . '/Users/albert/google-cloud-sdk/path.fish.inc'; end; end
+if [ -f "$HOME/google-cloud-sdk/path.fish.inc" ]; if type source > /dev/null; source "$HOME/google-cloud-sdk/path.fish.inc"; else; . "$HOME/google-cloud-sdk/path.fish.inc"; end; end
 
 direnv hook fish | source
 
