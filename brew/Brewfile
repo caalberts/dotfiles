@@ -6,31 +6,33 @@ brew "git-lfs"
 brew "gnu-sed"
 brew "htop"
 brew "jq"
-brew "mackup"
+brew "mackup" unless OS.linux?
 brew "postgresql"
 brew "redis"
 brew "stow"
 brew "tree"
 brew "vim"
 brew "xclip" if OS.linux?
-cask "alfred"
-cask "brave-browser"
-cask "caffeine"
-cask "charles"
-cask "cheatsheet"
-cask "daisydisk"
-cask "dash"
-cask "discord"
-cask "docker"
-cask "firefox"
-cask "ferdium"
-cask "google-chrome"
-cask "google-cloud-sdk"
-cask "jetbrains-toolbox"
-cask "ghostty"
-cask "postico"
-cask "postman"
-cask "rectangle"
-cask "slack"
-cask "spotify"
-cask "visual-studio-code"
+
+# GUI applications (macOS only)
+cask "alfred" unless OS.linux?
+cask "brave-browser" unless OS.linux?
+cask "caffeine" unless OS.linux?
+cask "charles" unless OS.linux?
+cask "cheatsheet" unless OS.linux?
+cask "daisydisk" unless OS.linux?
+cask "dash" unless OS.linux?
+cask "discord" unless OS.linux?
+cask "docker" unless OS.linux?
+cask "firefox" unless OS.linux?
+cask "ferdium" unless OS.linux?
+cask "google-chrome" unless OS.linux?
+cask "google-cloud-sdk" unless OS.linux?
+cask "jetbrains-toolbox" unless OS.linux?
+cask "ghostty" unless OS.linux?
+cask "postico" unless OS.linux?
+cask "postman" unless OS.linux?
+cask "rectangle" unless OS.linux?
+cask "slack" unless OS.linux?
+cask "spotify" unless OS.linux?
+cask "visual-studio-code" unless OS.linux?
