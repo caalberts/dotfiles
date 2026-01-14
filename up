@@ -7,10 +7,22 @@ function acceptXcodeLicense {
 
 function getLatestBrew {
 	echo "Installing latest homebrew"
-	which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" 
+	which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-	echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/albert/.zprofile
-	eval "$(/opt/homebrew/bin/brew shellenv)"
+	# Detect brew installation path (different on Mac vs Linux)
+	if [ -x /opt/homebrew/bin/brew ]; then
+		BREW_PREFIX="/opt/homebrew"
+	elif [ -x /usr/local/bin/brew ]; then
+		BREW_PREFIX="/usr/local"
+	elif [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+		BREW_PREFIX="/home/linuxbrew/.linuxbrew"
+	else
+		echo "Could not find brew installation"
+		return 1
+	fi
+
+	echo "eval \"\$(${BREW_PREFIX}/bin/brew shellenv)\"" >> ~/.zprofile
+	eval "$(${BREW_PREFIX}/bin/brew shellenv)"
 
 	brew update
 	brew tap 'homebrew/bundle'
@@ -36,8 +48,9 @@ function mackupRestore {
 }
 
 function initFish {
-  sudo echo "/usr/local/bin/fish" >> /etc/shells
-  chsh -s /usr/local/bin/fish
+  FISH_PATH=$(brew --prefix)/bin/fish
+  sudo echo "$FISH_PATH" >> /etc/shells
+  chsh -s "$FISH_PATH"
   curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
   source
   fisher

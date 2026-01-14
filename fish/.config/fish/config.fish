@@ -26,7 +26,14 @@ if functions -q bass
   bass source ~/.bash_profile
 end
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Initialize Homebrew (cross-platform: works on macOS and Linux)
+if test -x /opt/homebrew/bin/brew
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+else if test -x /usr/local/bin/brew
+  eval "$(/usr/local/bin/brew shellenv)"
+else if test -x /home/linuxbrew/.linuxbrew/bin/brew
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+end
 
 alias v "vim"
 alias gcm "git checkout master"
@@ -106,4 +113,8 @@ end
 source (brew --prefix asdf)/libexec/asdf.fish
 
 zoxide init fish | source
-fish_add_path /opt/homebrew/opt/curl/bin
+
+# Add Homebrew curl to PATH (if it exists)
+if test -d (brew --prefix)/opt/curl/bin
+  fish_add_path (brew --prefix)/opt/curl/bin
+end

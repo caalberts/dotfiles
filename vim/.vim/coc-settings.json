@@ -1,7 +1,7 @@
 {
   "languageserver": {
     "solidity": {
-      "command": "/opt/homebrew/bin/solc",
+      "command": "solc",
       "args": ["--lsp"],
       "rootPatterns": [".git/"],
       "filetypes": ["solidity"]
