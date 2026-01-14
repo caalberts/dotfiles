@@ -12,6 +12,7 @@ brew "redis"
 brew "stow"
 brew "tree"
 brew "vim"
+brew "xclip" if OS.linux?
 cask "alfred"
 cask "brave-browser"
 cask "caffeine"

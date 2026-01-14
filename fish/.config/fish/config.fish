@@ -58,6 +58,24 @@ function ll
   ls -al $argv
 end
 
+# Cross-platform clipboard functions (Linux compatibility)
+if not command -v pbcopy > /dev/null
+  if command -v xclip > /dev/null
+    function pbcopy
+      xclip -selection clipboard
+    end
+    function pbpaste
+      xclip -selection clipboard -o
+    end
+  else if command -v xsel > /dev/null
+    function pbcopy
+      xsel --clipboard --input
+    end
+    function pbpaste
+      xsel --clipboard --output
+    end
+  end
+end
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$HOME/google-cloud-sdk/path.fish.inc" ]; if type source > /dev/null; source "$HOME/google-cloud-sdk/path.fish.inc"; else; . "$HOME/google-cloud-sdk/path.fish.inc"; end; end
