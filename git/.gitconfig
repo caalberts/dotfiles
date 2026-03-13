@@ -4,7 +4,7 @@
 	autostash = true
 	stat = true
 [core]
-	excludesfile = /Users/albert/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	autocrlf = input
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
@@ -24,7 +24,7 @@
   path = ~/.gitcontext/users/albert-personal
 
 [include]
-	path = /Users/albert/.gitcontext/contexts
+	path = ~/.gitcontext/contexts
 [gpg]
 	format = ssh
 [gpg "ssh"]
