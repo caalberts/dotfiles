@@ -1,0 +1,43 @@
+[user]
+	name = Albert Salim
+	# email is set per-context via includeIf below
+	# signingKey points to your public key on the server.
+	# The private key stays on your laptop; git uses the forwarded SSH agent to sign.
+	# Setup: copy your public key to ~/.ssh/signing_key.pub on the server.
+	# Example: ssh-copy-id is for auth keys; for this just scp or paste the .pub file.
+	signingKey = ~/.ssh/signing_key.pub
+[rebase]
+	autostash = true
+	stat = true
+[core]
+	excludesfile = ~/.gitignore_global
+	autocrlf = input
+[init]
+	templatedir = ~/.git_template
+[grep]
+	lineNumber = true
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	# Use ssh-keygen for signing (standard, works with forwarded SSH agent)
+	program = ssh-keygen
+	# Allowed signers file for verifying signatures
+	# Format: "email ssh-ed25519 AAAA..."
+	# Add your key here: echo "you@example.com $(cat ~/.ssh/signing_key.pub)" >> ~/.ssh/allowed_signers
+	allowedSignersFile = ~/.ssh/allowed_signers
+[commit]
+	gpgsign = true
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
+[alias]
+	mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
+	jump = !git stash && git checkout $1 && shift && git stash pop
+	lol = log --oneline --graph --decorate
+
+[includeIf "gitdir:~/Dev/src/github.com/caalberts/"]
+	path = ~/.gitcontext/users/albert-personal
+
+[include]
+	path = ~/.gitcontext/contexts
