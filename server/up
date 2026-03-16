@@ -1,0 +1,227 @@
+#!/usr/bin/env bash
+set -e
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+log()  { echo -e "${GREEN}[up]${NC} $1"; }
+warn() { echo -e "${YELLOW}[up]${NC} $1"; }
+error() { echo -e "${RED}[up]${NC} $1"; exit 1; }
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+installSystemDeps() {
+  log "Installing system dependencies..."
+  sudo apt-get update -q
+  sudo apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    procps \
+    file \
+    libssl-dev \
+    libreadline-dev \
+    zlib1g-dev \
+    libyaml-dev \
+    libffi-dev \
+    stow
+}
+
+installBrew() {
+  if command -v brew &>/dev/null; then
+    log "Homebrew already installed, updating..."
+    brew update
+    return
+  fi
+
+  log "Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  local brew_prefix=""
+  if [ -d "/home/linuxbrew/.linuxbrew" ]; then
+    brew_prefix="/home/linuxbrew/.linuxbrew"
+  elif [ -d "$HOME/.linuxbrew" ]; then
+    brew_prefix="$HOME/.linuxbrew"
+  else
+    error "Homebrew installation directory not found."
+  fi
+
+  # Make brew available for the rest of this script
+  eval "$($brew_prefix/bin/brew shellenv)"
+
+  # Add brew to ~/.bashrc for interactive bash sessions
+  if ! grep -q 'brew shellenv' "$HOME/.bashrc" 2>/dev/null; then
+    log "Adding Homebrew to ~/.bashrc..."
+    echo "" >> "$HOME/.bashrc"
+    echo "# Homebrew" >> "$HOME/.bashrc"
+    echo "eval \"\$($brew_prefix/bin/brew shellenv bash)\"" >> "$HOME/.bashrc"
+  fi
+  # ~/.profile (stowed) handles brew for bash login shells and fish sees it via config.fish
+}
+
+brewInstall() {
+  log "Installing brew packages..."
+  brew bundle install --file="$SCRIPT_DIR/brew/Brewfile"
+}
+
+stowDotfiles() {
+  log "Stowing dotfiles..."
+
+  # Ubuntu ships with a ~/.profile; stow won't overwrite non-symlink files.
+  # Back it up so stow can create the symlink.
+  if [ -f "$HOME/.profile" ] && [ ! -L "$HOME/.profile" ]; then
+    warn "Backing up existing ~/.profile to ~/.profile.bak"
+    mv "$HOME/.profile" "$HOME/.profile.bak"
+  fi
+
+  for dir in asdf direnv fish git profile ssh tmux vim; do
+    if [ -d "$SCRIPT_DIR/$dir" ]; then
+      log "  stowing $dir..."
+      stow -d "$SCRIPT_DIR" -t "$HOME" "$dir"
+    fi
+  done
+}
+
+setupSSHDir() {
+  log "Setting up SSH directory..."
+  mkdir -p "$HOME/.ssh"
+  chmod 700 "$HOME/.ssh"
+  # Create stable socket path used by tmux across reconnects
+  touch "$HOME/.ssh/auth_sock"
+  chmod 600 "$HOME/.ssh/auth_sock"
+}
+
+initFish() {
+  FISH_PATH="$(command -v fish 2>/dev/null || echo /home/linuxbrew/.linuxbrew/bin/fish)"
+
+  if ! grep -qF "$FISH_PATH" /etc/shells 2>/dev/null; then
+    log "Adding fish to /etc/shells..."
+    echo "$FISH_PATH" | sudo tee -a /etc/shells
+  fi
+
+  if [ "$SHELL" != "$FISH_PATH" ]; then
+    log "Setting fish as default shell..."
+    chsh -s "$FISH_PATH"
+  else
+    log "Fish is already the default shell."
+  fi
+}
+
+initAsdf() {
+  log "Initializing asdf..."
+
+  # Source asdf for this script
+  if [ -f "$(brew --prefix asdf)/libexec/asdf.sh" ]; then
+    source "$(brew --prefix asdf)/libexec/asdf.sh"
+  else
+    error "asdf not found. Make sure brew install asdf succeeded."
+  fi
+
+  local plugins=(golang python ruby nodejs rust)
+  for plugin in "${plugins[@]}"; do
+    log "  adding asdf plugin: $plugin"
+    asdf plugin add "$plugin" 2>/dev/null || true
+  done
+
+  log "Installing language versions from .tool-versions..."
+  # Copy .tool-versions to home so asdf install picks it up
+  if [ ! -f "$HOME/.tool-versions" ]; then
+    cp "$SCRIPT_DIR/asdf/.tool-versions" "$HOME/.tool-versions"
+  fi
+  cd "$HOME" && asdf install
+}
+
+installTmuxPluginManager() {
+  local tpm_dir="$HOME/.tmux/plugins/tpm"
+  if [ ! -d "$tpm_dir" ]; then
+    log "Installing tmux plugin manager..."
+    git clone https://github.com/tmux-plugins/tpm "$tpm_dir"
+  else
+    log "tpm already installed."
+  fi
+}
+
+installVimPlug() {
+  if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
+    log "Installing vim-plug..."
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  else
+    log "vim-plug already installed."
+  fi
+}
+
+installClaudeCode() {
+  if command -v claude &>/dev/null; then
+    log "Claude Code already installed."
+    return
+  fi
+
+  if ! command -v node &>/dev/null; then
+    warn "Node.js not found. Run 'asdf install' first, then install Claude Code manually:"
+    warn "  npm install -g @anthropic-ai/claude-code"
+    return
+  fi
+
+  log "Installing Claude Code..."
+  npm install -g @anthropic-ai/claude-code
+}
+
+makeDirs() {
+  log "Creating directories..."
+  mkdir -p "$HOME/Dev/src/github.com"
+  mkdir -p "$HOME/Dev/src/gitlab.com"
+}
+
+printNextSteps() {
+  echo ""
+  log "Setup complete! Next steps:"
+  echo ""
+  echo "  1. Restart shell or run: exec fish"
+  echo ""
+  echo "  2. Set your git email (not committed to dotfiles):"
+  echo "     git config --global user.email 'you@example.com'"
+  echo ""
+  echo "  3. Set up git SSH signing:"
+  echo "     - Edit server/git/.gitconfig on your MacBook:"
+  echo "       Replace the signingKey placeholder with your actual public key."
+  echo "       Get it by running on your MacBook: ssh-add -L"
+  echo "     - Add to allowed signers on the server:"
+  echo "       echo \"you@example.com \$(ssh-add -L | head -1)\" >> ~/.ssh/allowed_signers"
+  echo ""
+  echo "  4. Install Ghostty terminfo (run from your MacBook, not the server):"
+  echo "     infocmp -x xterm-ghostty | ssh home-server -- tic -x -"
+  echo "     (Without this, tmux will refuse to start when TERM=xterm-ghostty)"
+  echo ""
+  echo "  5. Install tmux plugins:"
+  echo "     Start tmux, then press Ctrl-S + I"
+  echo ""
+  echo "  6. Install vim plugins:"
+  echo "     Run: vim +PlugInstall +qall"
+  echo ""
+  echo "  7. Install Claude Code (after asdf and node are set up):"
+  echo "     npm install -g @anthropic-ai/claude-code"
+  echo ""
+}
+
+main() {
+  log "Setting up home server..."
+
+  installSystemDeps
+  installBrew
+  brewInstall
+  setupSSHDir
+  stowDotfiles
+  initFish
+  initAsdf
+  installTmuxPluginManager
+  installVimPlug
+  installClaudeCode
+  makeDirs
+
+  printNextSteps
+}
+
+main
