@@ -39,11 +39,26 @@ installBrew() {
   log "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+  local brew_prefix=""
   if [ -d "/home/linuxbrew/.linuxbrew" ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    brew_prefix="/home/linuxbrew/.linuxbrew"
   elif [ -d "$HOME/.linuxbrew" ]; then
-    eval "$($HOME/.linuxbrew/bin/brew shellenv)"
+    brew_prefix="$HOME/.linuxbrew"
+  else
+    error "Homebrew installation directory not found."
   fi
+
+  # Make brew available for the rest of this script
+  eval "$($brew_prefix/bin/brew shellenv)"
+
+  # Add brew to ~/.bashrc for interactive bash sessions
+  if ! grep -q 'brew shellenv' "$HOME/.bashrc" 2>/dev/null; then
+    log "Adding Homebrew to ~/.bashrc..."
+    echo "" >> "$HOME/.bashrc"
+    echo "# Homebrew" >> "$HOME/.bashrc"
+    echo "eval \"\$($brew_prefix/bin/brew shellenv bash)\"" >> "$HOME/.bashrc"
+  fi
+  # ~/.profile (stowed) handles brew for bash login shells and fish sees it via config.fish
 }
 
 brewInstall() {
