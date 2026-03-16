@@ -153,29 +153,6 @@ installVimPlug() {
   fi
 }
 
-installGhosttyTerminfo() {
-  if infocmp xterm-ghostty &>/dev/null 2>&1; then
-    log "Ghostty terminfo already installed."
-    return
-  fi
-
-  log "Installing Ghostty terminfo..."
-  # Ghostty's terminfo must be present on the server or tmux will refuse to start
-  # when you SSH in from a Ghostty terminal (TERM=xterm-ghostty).
-  # Download the terminfo source from the Ghostty repo and compile it with tic.
-  local tmpfile
-  tmpfile="$(mktemp /tmp/ghostty.terminfo.XXXX)"
-  if curl -fsSL "https://raw.githubusercontent.com/ghostty-org/ghostty/main/src/terminal/ghostty.terminfo" -o "$tmpfile"; then
-    tic -x "$tmpfile"
-    rm -f "$tmpfile"
-    log "Ghostty terminfo installed."
-  else
-    rm -f "$tmpfile"
-    warn "Could not download Ghostty terminfo. Run this from your MacBook instead:"
-    warn "  infocmp -x xterm-ghostty | ssh home-server -- tic -x -"
-  fi
-}
-
 installClaudeCode() {
   if command -v claude &>/dev/null; then
     log "Claude Code already installed."
@@ -214,6 +191,10 @@ printNextSteps() {
   echo "     - Add to allowed signers on the server:"
   echo "       echo \"you@example.com \$(ssh-add -L | head -1)\" >> ~/.ssh/allowed_signers"
   echo ""
+  echo "  4. Install Ghostty terminfo (run from your MacBook, not the server):"
+  echo "     infocmp -x xterm-ghostty | ssh home-server -- tic -x -"
+  echo "     (Without this, tmux will refuse to start when TERM=xterm-ghostty)"
+  echo ""
   echo "  5. Install tmux plugins:"
   echo "     Start tmux, then press Ctrl-S + I"
   echo ""
@@ -235,7 +216,6 @@ main() {
   stowDotfiles
   initFish
   initAsdf
-  installGhosttyTerminfo
   installTmuxPluginManager
   installVimPlug
   installClaudeCode
