@@ -14,23 +14,12 @@ Configuration for a long-running Ubuntu Server dev machine, accessed via SSH fro
 
 ## First-Time Setup
 
-### 1. Fresh Ubuntu Server
+### 1. Enable SSH Agent Forwarding (on your MacBook — do this first)
 
-```bash
-# Install git if not present
-sudo apt-get install -y git
+Before cloning or running setup on the server, ensure your MacBook is configured
+to forward the SSH agent. Without this, git clone and commit signing won't work.
 
-# Clone your dotfiles
-git clone https://github.com/caalberts/dotfiles ~/dotfiles
-cd ~/dotfiles/server
-
-# Run setup
-./up
-```
-
-### 2. SSH Agent Forwarding (on your MacBook)
-
-Add to `~/.ssh/config` on your MacBook:
+Add to `~/.ssh/config` on your **MacBook**:
 
 ```
 Host home-server
@@ -39,23 +28,49 @@ Host home-server
     ForwardAgent yes
 ```
 
-This makes your laptop's SSH keys (including the one in 1Password) available on the server. You never copy private keys to the server.
+Then reconnect: `ssh home-server`
+
+Verify the agent is forwarded:
+```bash
+# On the server — should list your keys
+ssh-add -L
+```
+
+### 2. Fresh Ubuntu Server
+
+```bash
+# Install git if not present
+sudo apt-get install -y git
+
+# Clone dotfiles via SSH (uses the forwarded agent from your MacBook)
+git clone git@github.com:caalberts/dotfiles.git ~/dotfiles
+cd ~/dotfiles/server
+
+# Run setup
+./up
+```
 
 ### 3. Git Commit Signing
 
-Git is configured to sign commits using SSH. The private key stays on your laptop; git uses the forwarded SSH agent.
+Git is configured to sign commits using SSH. The public key is embedded inline in
+`git/.gitconfig` (with a placeholder). The private key stays on your laptop; git
+uses the forwarded SSH agent to sign.
+
+**One-time setup:**
 
 ```bash
-# On your MacBook, find your public key (the one you use for signing on macOS)
-cat ~/.ssh/your_key.pub
+# 1. On your MacBook, get your public key from the agent
+ssh-add -L
+# Outputs something like: ssh-ed25519 AAAAC3... your-key-comment
 
-# Copy it to the server
-scp ~/.ssh/your_key.pub home-server:~/.ssh/signing_key.pub
+# 2. In server/git/.gitconfig, replace the placeholder:
+#    signingKey = key::ssh-ed25519 AAAA_REPLACE_WITH_YOUR_PUBLIC_KEY your-key-comment
+#    with the actual output from ssh-add -L above
 
-# On the server, create the allowed signers file
-echo "you@example.com $(cat ~/.ssh/signing_key.pub)" >> ~/.ssh/allowed_signers
+# 3. On the server, create the allowed signers file for verification
+echo "you@example.com $(ssh-add -L | head -1)" >> ~/.ssh/allowed_signers
 
-# Set your git email (not stored in dotfiles)
+# 4. Set your git email (not committed to dotfiles)
 git config --global user.email "you@example.com"
 ```
 

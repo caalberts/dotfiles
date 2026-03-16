@@ -53,6 +53,14 @@ brewInstall() {
 
 stowDotfiles() {
   log "Stowing dotfiles..."
+
+  # Ubuntu ships with a ~/.profile; stow won't overwrite non-symlink files.
+  # Back it up so stow can create the symlink.
+  if [ -f "$HOME/.profile" ] && [ ! -L "$HOME/.profile" ]; then
+    warn "Backing up existing ~/.profile to ~/.profile.bak"
+    mv "$HOME/.profile" "$HOME/.profile.bak"
+  fi
+
   for dir in asdf direnv fish git profile ssh tmux vim; do
     if [ -d "$SCRIPT_DIR/$dir" ]; then
       log "  stowing $dir..."
@@ -162,17 +170,11 @@ printNextSteps() {
   echo "     git config --global user.email 'you@example.com'"
   echo ""
   echo "  3. Set up git SSH signing:"
-  echo "     - Copy your public key to the server:"
-  echo "       scp ~/.ssh/your_key.pub server:~/.ssh/signing_key.pub"
-  echo "     - Add to allowed signers:"
-  echo "       echo \"you@example.com \$(cat ~/.ssh/signing_key.pub)\" >> ~/.ssh/allowed_signers"
-  echo ""
-  echo "  4. On your laptop, enable SSH agent forwarding for this server:"
-  echo "     Add to ~/.ssh/config on your MacBook:"
-  echo "       Host your-server"
-  echo "         HostName <server-ip>"
-  echo "         User <your-user>"
-  echo "         ForwardAgent yes"
+  echo "     - Edit server/git/.gitconfig on your MacBook:"
+  echo "       Replace the signingKey placeholder with your actual public key."
+  echo "       Get it by running on your MacBook: ssh-add -L"
+  echo "     - Add to allowed signers on the server:"
+  echo "       echo \"you@example.com \$(ssh-add -L | head -1)\" >> ~/.ssh/allowed_signers"
   echo ""
   echo "  5. Install tmux plugins:"
   echo "     Start tmux, then press Ctrl-S + I"

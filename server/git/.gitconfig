@@ -1,11 +1,11 @@
 [user]
 	name = Albert Salim
 	# email is set per-context via includeIf below
-	# signingKey points to your public key on the server.
-	# The private key stays on your laptop; git uses the forwarded SSH agent to sign.
-	# Setup: copy your public key to ~/.ssh/signing_key.pub on the server.
-	# Example: ssh-copy-id is for auth keys; for this just scp or paste the .pub file.
-	signingKey = ~/.ssh/signing_key.pub
+	# Public key for SSH commit signing. Private key stays on your laptop;
+	# git uses the forwarded SSH agent to sign. The key:: prefix embeds it inline.
+	# To find your key: ssh-add -L   (run on your MacBook, it lists agent keys)
+	# Then replace the placeholder below with your actual public key.
+	signingKey = key::ssh-ed25519 AAAA_REPLACE_WITH_YOUR_PUBLIC_KEY your-key-comment
 [rebase]
 	autostash = true
 	stat = true
