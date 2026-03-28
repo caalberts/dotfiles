@@ -24,6 +24,7 @@ brew "htop"
 # Network tools
 brew "curl"
 brew "wget"
+brew "mosh"
 
 # Build tools (required for asdf language compilation)
 brew "gcc"
