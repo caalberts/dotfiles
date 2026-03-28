@@ -1,0 +1,43 @@
+[user]
+	name = Albert Salim
+	# email is set per-context via includeIf below
+	# Public key for SSH commit signing. Private key stays on your laptop;
+	# git uses the forwarded SSH agent to sign. The key:: prefix embeds it inline.
+	# To find your key: ssh-add -L   (run on your MacBook, it lists agent keys)
+	# Then replace the placeholder below with your actual public key.
+	signingKey = key::ssh-ed25519 AAAA_REPLACE_WITH_YOUR_PUBLIC_KEY your-key-comment
+[rebase]
+	autostash = true
+	stat = true
+[core]
+	excludesfile = ~/.gitignore_global
+	autocrlf = input
+[init]
+	templatedir = ~/.git_template
+[grep]
+	lineNumber = true
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	# Use ssh-keygen for signing (standard, works with forwarded SSH agent)
+	program = ssh-keygen
+	# Allowed signers file for verifying signatures
+	# Format: "email ssh-ed25519 AAAA..."
+	# Add your key here: echo "you@example.com $(cat ~/.ssh/signing_key.pub)" >> ~/.ssh/allowed_signers
+	allowedSignersFile = ~/.ssh/allowed_signers
+[commit]
+	gpgsign = true
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
+[alias]
+	mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
+	jump = !git stash && git checkout $1 && shift && git stash pop
+	lol = log --oneline --graph --decorate
+
+[includeIf "gitdir:~/Dev/src/github.com/caalberts/"]
+	path = ~/.gitcontext/users/albert-personal
+
+[include]
+	path = ~/.gitcontext/contexts

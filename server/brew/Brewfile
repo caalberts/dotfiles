@@ -1,0 +1,34 @@
+# Shell
+brew "fish"
+brew "tmux"
+
+# Version management
+brew "asdf"
+
+# Core tools
+brew "git"
+brew "vim"
+brew "fzf"
+brew "direnv"
+brew "stow"
+brew "zoxide"
+
+# Search & navigation
+brew "ripgrep"
+brew "fd"
+brew "jq"
+
+# System monitoring
+brew "htop"
+
+# Network tools
+brew "curl"
+brew "wget"
+
+# Build tools (required for asdf language compilation)
+brew "gcc"
+brew "openssl@3"
+brew "readline"
+brew "zlib"
+brew "libyaml"
+brew "libffi"
