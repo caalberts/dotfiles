@@ -41,3 +41,9 @@
 
 [include]
 	path = ~/.gitcontext/contexts
+
+[include]
+  path = ~/.gitconfig-personal
+
+[include]
+  path = ~/.gitconfig-work
