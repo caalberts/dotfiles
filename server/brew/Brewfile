@@ -25,6 +25,10 @@ brew "htop"
 brew "curl"
 brew "wget"
 brew "mosh"
+brew "socat"
+
+# Sandboxing
+brew "bubblewrap"
 
 # Build tools (required for asdf language compilation)
 brew "gcc"
